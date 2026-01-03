@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-in-One Downloader</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Socmed Downloader</h1>
+            <p>Download video TikTok, IG, & FB secara gratis</p>
+        </header>
+
+        <div class="main-card">
+            <div class="input-box">
+                <input type="text" id="videoUrl" placeholder="Tempel link video di sini...">
+                <button id="btnAction" onclick="mulaiProses()">Ambil Video</button>
+            </div>
+
+            <div id="loader" class="hidden">Sedang memproses...</div>
+
+            <div id="result" class="result-container hidden">
+                <div class="success-icon">✅ Berhasil!</div>
+                <a id="downloadBtn" href="#" target="_blank" class="download-link">Simpan Video ke Galeri</a>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
