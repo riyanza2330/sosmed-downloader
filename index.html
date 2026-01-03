@@ -1,102 +1,28 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>All Social Media Downloader</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Download video TikTok, Instagram, Facebook, Twitter gratis">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Socmed Downloader</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <div class="container">
+        <h1>Video Downloader</h1>
+        <p>Paste link video (IG, TikTok, FB) di bawah ini:</p>
+        
+        <div class="input-group">
+            <input type="text" id="videoUrl" placeholder="https://www.instagram.com/p/...">
+            <button onclick="prosesDownload()">Download</button>
+        </div>
 
-<div class="wrapper">
-    <h1>All Social Media Downloader</h1>
-    <p class="subtitle">TikTok • Instagram • Facebook • Twitter</p>
-
-    <div class="box">
-        <input type="text" id="url" placeholder="Tempel link video di sini">
-        <button onclick="download()">Download</button>
-        <div id="status"></div>
+        <div id="result" class="result-box" style="display: none;">
+            <p>Video Berhasil Ditemukan!</p>
+            <a id="downloadBtn" href="#" target="_blank" class="btn-final">Klik untuk Simpan Video</a>
+        </div>
     </div>
 
-    <div class="info">
-        <p>✔ Gratis</p>
-        <p>✔ Tanpa Login</p>
-        <p>✔ Tanpa Watermark*</p>
-    </div>
-
-    <footer>
-        © 2026 Sosmed Downloader
-    </footer>
-</div>
-
-<script src="script.js"></script>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<title>All Social Media Downloader</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Download video TikTok, Instagram, Facebook, Twitter gratis">
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<div class="container">
-  <h1>All Social Media Downloader</h1>
-  <p class="subtitle">TikTok · Instagram · Facebook · Twitter</p>
-
-  <input id="url" type="text" placeholder="Tempel link video di sini">
-  <button onclick="download()">Download</button>
-
-  <div id="status"></div>
-
-  <div class="info">
-    <span>✔ Gratis</span>
-    <span>✔ Tanpa Login</span>
-    <span>✔ Cepat</span>
-  </div>
-
-  <footer>© 2026 Sosmed Downloader</footer>
-</div>
-
-<script src="script.js"></script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<title>All Social Media Downloader</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Download video TikTok, Instagram, Facebook, Twitter gratis">
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<div class="container">
-  <h1>All Social Media Downloader</h1>
-  <p class="subtitle">TikTok · Instagram · Facebook · Twitter</p>
-
-  <input id="url" type="text" placeholder="Tempel link video di sini">
-  <button onclick="download()">Download</button>
-
-  <div id="status"></div>
-
-  <div class="info">
-    <span>✔ Gratis</span>
-    <span>✔ Tanpa Login</span>
-    <span>✔ Cepat</span>
-  </div>
-
-  <footer>© 2026 Sosmed Downloader</footer>
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
 Adsterra
