@@ -1,30 +1,33 @@
 function download() {
     const url = document.getElementById("url").value.trim();
+    const status = document.getElementById("status");
 
     if (!url) {
-        alert("Masukkan link video dulu bro!");
+        status.innerHTML = "❌ Masukkan link video dulu";
         return;
     }
 
-    // Auto detect platform
-    let target = "";
+    status.innerHTML = "⏳ Memproses...";
+
+    let redirect = "";
 
     if (url.includes("tiktok.com")) {
-        target = "https://snapsave.app/download?url=";
+        redirect = "https://snapsave.app/download?url=";
     } 
     else if (url.includes("instagram.com")) {
-        target = "https://snapinsta.app/?url=";
+        redirect = "https://snapinsta.app/?url=";
     } 
     else if (url.includes("facebook.com") || url.includes("fb.watch")) {
-        target = "https://fdown.net/?url=";
+        redirect = "https://fdown.net/?url=";
     } 
     else if (url.includes("twitter.com") || url.includes("x.com")) {
-        target = "https://ssstwitter.com/?url=";
+        redirect = "https://ssstwitter.com/?url=";
     } 
     else {
-        alert("Platform belum didukung bro 😅");
+        status.innerHTML = "❌ Platform tidak didukung";
         return;
     }
 
-    window.open(target + encodeURIComponent(url), "_blank");
+    status.innerHTML = "✅ Redirect ke halaman download...";
+    window.open(redirect + encodeURIComponent(url), "_blank");
 }
