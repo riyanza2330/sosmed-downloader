@@ -46,3 +46,24 @@ async function mulaiDownload() {
         btn.innerText = "Download Lagi";
     }
 }
+async function mulaiDownload() {
+    const url = document.getElementById('videoUrl').value;
+    const btn = document.getElementById('btnAction');
+    const result = document.getElementById('result');
+    const loader = document.getElementById('loader');
+
+    if (!url) return alert("Tempel link video TikTok dulu bro!");
+
+    loader.classList.remove('hidden');
+    result.classList.add('hidden');
+    btn.disabled = true;
+    btn.innerText = "Memproses...";
+
+    try {
+        const proxy = "https://corsproxy.io/?";
+        const apiTarget = https://api.tiklydown.eu.org/api/download?url=${encodeURIComponent(url)};
+        
+        const response = await fetch(proxy + encodeURIComponent(apiTarget));
+        const data = await response.json();
+
+        if (data.sta…
