@@ -1,34 +1,20 @@
-async function prosesDownload() {
-    const url = document.getElementById('videoUrl').value;
-    const resultBox = document.getElementById('result');
-    const downloadBtn = document.getElementById('downloadBtn');
+// Ganti baris fetch yang lama dengan yang ini:
+const apiUrl = `https://api.vreden.web.id/api/tiktok?url=${encodeURIComponent(url)}`;
 
-    if (!url) {
-        alert("Masukkan link dulu bro!");
-        return;
-    }
+try {
+    const response = await fetch(apiUrl);
+    const result = await response.json();
 
-    // Tampilkan status loading
-    document.querySelector('button').innerText = "Sabar, lagi proses...";
-
-    try {
-        // Kita pakai API publik (RapidAPI atau sejenisnya) 
-        // Contoh ini pakai API pihak ketiga gratisan untuk demo:
-        const response = await fetch(`https://api.tiklydown.eu.org/api/download?url=${encodeURIComponent(url)}`);
-        const data = await response.json();
-
-        if (data.status === true || data.url) {
-            // Jika berhasil, tampilkan tombol download
-            resultBox.style.display = "block";
-            // Sesuaikan 'data.url' dengan struktur respon API yang dipakai
-            downloadBtn.href = data.video || data.url; 
-            document.querySelector('button').innerText = "Download Lagi";
-        } else {
-            alert("Video nggak ketemu atau link salah.");
-        }
-    } catch (error) {
-        console.error(error);
-        alert("Waduh, ada masalah koneksi ke API.");
+    // Cek struktur datanya (tergantung API yang dipakai)
+    if (result.status === 200 || result.result) {
+        resultBox.style.display = "block";
+        // Jika pakai API Vreden, biasanya link videonya ada di result.data.video atau sejenisnya
+        downloadBtn.href = result.result.video || result.result.data.video; 
+        document.querySelector('button').innerText = "Download Lagi";
+    } else {
+        alert("Video tidak ditemukan. Coba link lain bro.");
         document.querySelector('button').innerText = "Download";
     }
+} catch (error) {
+    // ... kode error kamu
 }
