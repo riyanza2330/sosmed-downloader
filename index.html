@@ -3,30 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All-in-One Downloader</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Social Media Downloader</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; background: #f4f7f6; padding: 20px; }
+        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 450px; text-align: center; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        #result { margin-top: 20px; display: none; padding: 15px; border: 2px dashed #28a745; border-radius: 8px; }
+        .dl-link { color: #28a745; font-weight: bold; text-decoration: none; display: block; margin-top: 10px; }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🚀 Socmed Downloader</h1>
-            <p>Download video TikTok, IG, & FB secara gratis</p>
-        </header>
 
-        <div class="main-card">
-            <div class="input-box">
-                <input type="text" id="videoUrl" placeholder="Tempel link video di sini...">
-                <button id="btnAction" onclick="mulaiProses()">Ambil Video</button>
-            </div>
+<div class="card">
+    <h2>Video Downloader</h2>
+    <p>Paste link TikTok/IG/FB di bawah:</p>
+    <input type="text" id="videoUrl" placeholder="https://vt.tiktok.com/...">
+    <button onclick="downloadVideo()" id="btn">Ambil Video</button>
 
-            <div id="loader" class="hidden">Sedang memproses...</div>
-
-            <div id="result" class="result-container hidden">
-                <div class="success-icon">✅ Berhasil!</div>
-                <a id="downloadBtn" href="#" target="_blank" class="download-link">Simpan Video ke Galeri</a>
-            </div>
-        </div>
+    <div id="result">
+        <span>✅ Video Siap!</span>
+        <a id="downloadBtn" href="#" target="_blank" class="dl-link">KLIK UNTUK DOWNLOAD</a>
     </div>
-    <script src="script.js"></script>
+</div>
+
+<script>
+async function downloadVideo() {
+    const url = document.getElementById('videoUrl').value;
+    const btn = document.getElementById('btn');
+    const resultDiv = document.getElementById('result');
+    const dlLink = document.getElementById('downloadBtn');
+
+    if(!url) return alert("Tempel link-nya dulu bro!");
+
+    btn.innerText = "Sedang Memproses...";
+    btn.disabled = true;
+
+    try {
+        // Menggunakan CORS Proxy agar tidak kena blokir browser (seperti di screenshot console kamu)
+        const proxy = "https://corsproxy.io/?";
+        const targetApi = `https://api.tiklydown.eu.org/api/download?url=${encodeURIComponent(url)}`;
+        
+        const response = await fetch(proxy + encodeURIComponent(targetApi));
+        const data = await response.json();
+
+        if (data.status === 200) {
+            resultDiv.style.display = "block";
+            // Mengambil link video tanpa watermark
+            dlLink.href = data.result.video.no_watermark || data.result.video.main;
+            btn.innerText = "Ambil Video";
+        } else {
+            alert("API tidak merespon. Coba link lain.");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Terjadi kesalahan koneksi ke API. Pastikan link benar.");
+    } finally {
+        btn.disabled = false;
+        btn.innerText = "Ambil Video";
+    }
+}
+</script>
 </body>
 </html>
