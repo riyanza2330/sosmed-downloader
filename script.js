@@ -1,41 +1,41 @@
-async function mulaiProses() {
+async function mulaiDownload() {
     const url = document.getElementById('videoUrl').value;
     const btn = document.getElementById('btnAction');
+    const result = document.getElementById('result');
     const loader = document.getElementById('loader');
-    const resultBox = document.getElementById('result');
-    const downloadBtn = document.getElementById('downloadBtn');
 
-    if (!url) return alert("Masukkan link dulu!");
+    if (!url) return alert("Tempel link video TikTok dulu bro!");
 
-    // UI Reset
+    // UI Loading
     loader.classList.remove('hidden');
-    resultBox.classList.add('hidden');
+    result.classList.add('hidden');
     btn.disabled = true;
-    btn.innerText = "Loading...";
 
     try {
-        // Kita gunakan Tiklydown API melalui Proxy untuk menghindari CORS error
-        const apiUrl = `https://api.tiklydown.eu.org/api/download?url=${encodeURIComponent(url)}`;
-        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`;
-
-        const response = await fetch(proxyUrl);
+        // Solusi CORS Error: Gunakan Proxy
+        const proxy = "https://corsproxy.io/?";
+        const apiTarget = `https://api.tiklydown.eu.org/api/download?url=${encodeURIComponent(url)}`;
+        
+        const response = await fetch(proxy + encodeURIComponent(apiTarget));
         const data = await response.json();
 
         if (data.status === 200) {
-            // Tampilkan hasil
-            resultBox.classList.remove('hidden');
-            // Ambil link video tanpa watermark (TikTok) atau link video utama (FB/IG)
-            downloadBtn.href = data.video?.noWatermark || data.url || data.result?.video;
-            btn.innerText = "Selesai!";
+            loader.classList.add('hidden');
+            result.classList.remove('hidden');
+            
+            // Ambil link video (biasanya TikTok tanpa WM ada di noWatermark)
+            const videoLink = data.result.video.no_watermark || data.result.video.main;
+            document.getElementById('downloadBtn').href = videoLink;
+            document.getElementById('downloadBtnHD').href = videoLink; // Sama untuk demo
+            
+            btn.disabled = false;
         } else {
-            alert("Video tidak ditemukan atau link tidak didukung.");
+            throw new Error("API Error");
         }
-    } catch (e) {
-        console.error(e);
-        alert("Terjadi masalah koneksi ke server.");
-    } finally {
+    } catch (error) {
+        console.error(error);
+        alert("Gagal memproses link. Pastikan link TikTok valid!");
         loader.classList.add('hidden');
         btn.disabled = false;
-        btn.innerText = "Ambil Video Lagi";
     }
 }
