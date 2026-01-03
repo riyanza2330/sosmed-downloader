@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>All Social Media Downloader</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f1f1;
+      padding: 20px;
+      text-align: center;
+    }
+    input {
+      width: 90%;
+      max-width: 500px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    button {
+      padding: 12px 20px;
+      background: #ff0050;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #result a {
+      display: block;
+      margin-top: 15px;
+      color: blue;
+    }
+  </style>
+</head>
+<body>
+
+<h2>All Social Media Video Downloader</h2>
+
+<input id="url" placeholder="Paste link video..." />
+<br>
+<button onclick="download()">Download</button>
+
+<div id="result"></div>
+
+<script>
+async function download() {
+  const url = document.getElementById("url").value;
+  const result = document.getElementById("result");
+  result.innerHTML = "Loading...";
+
+  try {
+    const res = await fetch("API_URL_NANTI", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ url })
+    });
+
+    const data = await res.json();
+    result.innerHTML = `<a href="${data.download}" target="_blank">⬇ Download Video</a>`;
+  } catch {
+    result.innerHTML = "Gagal ambil video";
+  }
+}
+</script>
+
+</body>
+</html>
