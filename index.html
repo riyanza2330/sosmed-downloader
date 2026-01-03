@@ -52,6 +52,17 @@ async function downloadVideo() {
             // Mengambil link video tanpa watermark
             dlLink.href = data.result.video.no_watermark || data.result.video.main;
             btn.innerText = "Ambil Video";
+            <div class="dl-options">
+    <a id="downloadBtn" href="#" target="_blank" class="btn-dl">
+        <i class="fa-solid fa-video"></i> Tanpa Watermark
+    </a>
+    <a id="downloadBtnHD" href="#" target="_blank" class="btn-dl-hd">
+        <i class="fa-solid fa-bolt"></i> Tanpa Watermark [HD]
+    </a>
+    <a id="downloadBtnMP3" href="#" target="_blank" class="btn-mp3">
+        <i class="fa-solid fa-music"></i> Download MP3 (Audio)
+    </a>
+</div>
         } else {
             alert("API tidak merespon. Coba link lain.");
         }
