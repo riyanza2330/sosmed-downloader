@@ -1,1 +1,0 @@
-# sosmed-downloader
