@@ -1,35 +1,34 @@
-function download() {
-  const url = document.getElementById("url").value.trim();
-  const status = document.getElementById("status");
+async function prosesDownload() {
+    const url = document.getElementById('videoUrl').value;
+    const resultBox = document.getElementById('result');
+    const downloadBtn = document.getElementById('downloadBtn');
 
-  if (!url) {
-    status.innerHTML = "❌ Masukkan link video dulu";
-    return;
-  }
+    if (!url) {
+        alert("Masukkan link dulu bro!");
+        return;
+    }
 
-  let target = "";
+    // Tampilkan status loading
+    document.querySelector('button').innerText = "Sabar, lagi proses...";
 
-  if (url.includes("tiktok.com")) {
-    target = "https://snapsave.app";
-  } 
-  else if (url.includes("instagram.com")) {
-    target = "https://snapinsta.app";
-  } 
-  else if (url.includes("facebook.com") || url.includes("fb.watch")) {
-    target = "https://fdown.net";
-  } 
-  else if (url.includes("twitter.com") || url.includes("x.com")) {
-    target = "https://ssstwitter.com";
-  } 
-  else {
-    status.innerHTML = "❌ Platform tidak didukung";
-    return;
-  }
+    try {
+        // Kita pakai API publik (RapidAPI atau sejenisnya) 
+        // Contoh ini pakai API pihak ketiga gratisan untuk demo:
+        const response = await fetch(`https://api.tiklydown.eu.org/api/download?url=${encodeURIComponent(url)}`);
+        const data = await response.json();
 
-  status.innerHTML = `
-    ✅ Halaman downloader dibuka.<br>
-    👉 Paste ulang link di sana lalu klik Download
-  `;
-
-  window.open(target, "_blank");
+        if (data.status === true || data.url) {
+            // Jika berhasil, tampilkan tombol download
+            resultBox.style.display = "block";
+            // Sesuaikan 'data.url' dengan struktur respon API yang dipakai
+            downloadBtn.href = data.video || data.url; 
+            document.querySelector('button').innerText = "Download Lagi";
+        } else {
+            alert("Video nggak ketemu atau link salah.");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Waduh, ada masalah koneksi ke API.");
+        document.querySelector('button').innerText = "Download";
+    }
 }
