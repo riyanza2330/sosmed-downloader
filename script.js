@@ -1,27 +1,30 @@
 function download() {
-    const url = document.getElementById("url").value;
-    const result = document.getElementById("result");
+    const url = document.getElementById("url").value.trim();
 
-    if (url === "") {
-        result.innerHTML = "Masukkan URL dulu bro!";
+    if (!url) {
+        alert("Masukkan link video dulu bro!");
         return;
     }
 
-    result.innerHTML = "Processing...";
+    // Auto detect platform
+    let target = "";
 
-    fetch(`https://api.tikmate.app/api/lookup?url=${encodeURIComponent(url)}`)
-        .then(res => res.json())
-        .then(data => {
-            if (data && data.token) {
-                const video = `https://tikmate.app/download/${data.token}/720`;
-                result.innerHTML = `
-                    <a href="${video}" target="_blank">Download Video</a>
-                `;
-            } else {
-                result.innerHTML = "Gagal ambil video 😥";
-            }
-        })
-        .catch(() => {
-            result.innerHTML = "API error / Link tidak valid";
-        });
+    if (url.includes("tiktok.com")) {
+        target = "https://snapsave.app/download?url=";
+    } 
+    else if (url.includes("instagram.com")) {
+        target = "https://snapinsta.app/?url=";
+    } 
+    else if (url.includes("facebook.com") || url.includes("fb.watch")) {
+        target = "https://fdown.net/?url=";
+    } 
+    else if (url.includes("twitter.com") || url.includes("x.com")) {
+        target = "https://ssstwitter.com/?url=";
+    } 
+    else {
+        alert("Platform belum didukung bro 😅");
+        return;
+    }
+
+    window.open(target + encodeURIComponent(url), "_blank");
 }
