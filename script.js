@@ -1,41 +1,48 @@
 async function mulaiDownload() {
-    const url = document.getElementById('videoUrl').value;
+    const urlInput = document.getElementById('videoUrl').value;
     const btn = document.getElementById('btnAction');
-    const result = document.getElementById('result');
     const loader = document.getElementById('loader');
+    const resultBox = document.getElementById('result');
+    const downloadBtn = document.getElementById('downloadBtn');
 
-    if (!url) return alert("Tempel link video TikTok dulu bro!");
+    if (!urlInput) return alert("Tempel link video TikTok dulu bro!");
 
-    // UI Loading
+    // Set UI saat proses
     loader.classList.remove('hidden');
-    result.classList.add('hidden');
+    resultBox.classList.add('hidden');
     btn.disabled = true;
+    btn.innerText = "Memproses...";
 
     try {
-        // Solusi CORS Error: Gunakan Proxy
-        const proxy = "https://corsproxy.io/?";
-        const apiTarget = `https://api.tiklydown.eu.org/api/download?url=${encodeURIComponent(url)}`;
+        // SOLUSI UTAMA: Gunakan Proxy untuk menembus CORS Error yang ada di screenshot-mu
+        const targetApi = `https://api.tiklydown.eu.org/api/download?url=${encodeURIComponent(urlInput)}`;
+        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetApi)}`;
+
+        const response = await fetch(proxyUrl);
         
-        const response = await fetch(proxy + encodeURIComponent(apiTarget));
+        if (!response.ok) throw new Error("Server API tidak merespon");
+        
         const data = await response.json();
 
         if (data.status === 200) {
+            // Berhasil! Munculkan hasilnya
             loader.classList.add('hidden');
-            result.classList.remove('hidden');
+            resultBox.classList.remove('hidden');
             
-            // Ambil link video (biasanya TikTok tanpa WM ada di noWatermark)
+            // Ambil link video tanpa watermark
             const videoLink = data.result.video.no_watermark || data.result.video.main;
-            document.getElementById('downloadBtn').href = videoLink;
-            document.getElementById('downloadBtnHD').href = videoLink; // Sama untuk demo
+            downloadBtn.href = videoLink;
             
-            btn.disabled = false;
+            btn.innerText = "Selesai!";
         } else {
-            throw new Error("API Error");
+            alert("Video tidak ditemukan. Coba link TikTok yang lain.");
         }
     } catch (error) {
-        console.error(error);
-        alert("Gagal memproses link. Pastikan link TikTok valid!");
+        console.error("Error Detail:", error);
+        alert("Gagal koneksi. Coba matikan AdBlock/Brave Shield atau gunakan Chrome biasa.");
+    } finally {
         loader.classList.add('hidden');
         btn.disabled = false;
+        btn.innerText = "Download Lagi";
     }
 }
