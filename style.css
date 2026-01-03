@@ -77,3 +77,35 @@ button:hover { transform: scale(1.05); }
 .hidden { display: none; }
 .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #6c5ce7; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 20px auto; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+.btn-mp3 {
+    background: #e67e22; /* Warna Oranye */
+    text-decoration: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: white;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-mp3:hover {
+    background: #d35400;
+    transform: translateY(-2px);
+}
+
+.btn-dl, .btn-dl-hd {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: 0.3s;
+}
+
+.btn-dl:hover, .btn-dl-hd:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
