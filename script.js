@@ -4,35 +4,31 @@ async function prosesDownload() {
     const downloadBtn = document.getElementById('downloadBtn');
     const btnProses = document.querySelector('button');
 
-    if (!urlInput) {
-        alert("Masukkan link dulu bro!");
-        return;
-    }
+    if (!urlInput) return alert("Masukkan link dulu!");
 
     btnProses.innerText = "Sabar, lagi proses...";
 
     try {
-        // Kita gunakan API lain yang lebih stabil untuk Browser/CORS
+        // Kita gunakan API Tiklydown melalui proxy corsproxy.io
         const apiUrl = `https://api.tiklydown.eu.org/api/download?url=${encodeURIComponent(urlInput)}`;
-        
-        // Menambahkan Proxy (cors-anywhere atau sejenisnya) seringkali dibatasi, 
-        // Jadi kita coba pakai API yang support CORS secara native:
-        const response = await fetch(`https://api.vreden.web.id/api/tiktok?url=${encodeURIComponent(urlInput)}`);
+        const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(apiUrl)}`);
         const data = await response.json();
 
-        if (data.status === 200 && data.result) {
+        // Logika pembacaan data (sesuaikan dengan respon API)
+        if (data.status === 200 || data.url || data.result) {
             resultBox.style.display = "block";
-            // Ambil link video tanpa watermark
-            downloadBtn.href = data.result.video.no_watermark || data.result.video.main; 
+            // Ambil link video (Tiklydown biasanya ada di data.video.noWatermark atau data.url)
+            const finalLink = data.video?.noWatermark || data.url || data.result?.video;
+            
+            downloadBtn.href = finalLink;
             btnProses.innerText = "Download Lagi";
         } else {
-            alert("Video tidak ditemukan atau API sedang limit.");
-            btnProses.innerText = "Coba Lagi";
+            alert("Video tidak ditemukan. Coba link lain.");
+            btnProses.innerText = "Download";
         }
     } catch (error) {
-        console.error(error);
-        // Jika masih error CORS, ini adalah fallback/pilihan terakhir
-        alert("Terjadi kesalahan koneksi. Coba lagi dalam beberapa saat.");
+        console.error("Error Detail:", error);
+        alert("Gagal mengambil data. Coba lagi atau gunakan browser lain.");
         btnProses.innerText = "Download";
     }
 }
